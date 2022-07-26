@@ -9,22 +9,39 @@ def get_all():
 def get_by_id(id):
   addr = Addresses.query.get(id)
   if addr is None:
-    return "Not founded", 404
+    return "Not found", 404
   return jsonify(addr.to_json())
 
 def insert():
   if request.is_json:
-    address = request.get_json()
+    body = request.get_json()
     addr = Addresses (
-      city = address["city"],
-      state = address["state"],
-      cep = address["cep"],
-      number = address["number"],
-      neighborhood = address["neighborhood"]
+      city = body["city"],
+      state = body["state"],
+      cep = body["cep"],
+      number = body["number"],
+      neighborhood = body["neighborhood"]
     )
     db.session.add(addr)
     db.session.commit()
     return "created successfully", 201
   return {"error": "Request must be JSON"}, 415
 
-# def update(id):
+def update(id):
+  if request.is_json:
+    body = request.get_json()
+    addr = Addresses.query.get(id)
+    if addr is None:
+      return "Not found", 404
+    if("city" in body):
+      addr.city = body["city"]
+    if("state" in body):
+      addr.state = body["state"]
+    if("cep" in body):
+      addr.cep = body["cep"]
+    if("number" in body):
+      addr.number = body["number"]
+    if("neighborhood" in body):
+      addr.neighborhood = body["neighborhood"]
+    return "updated successfully", 200
+  return {"error": "Request must be JSON"}, 415
