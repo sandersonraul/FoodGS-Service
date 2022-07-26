@@ -3,6 +3,7 @@ from .restaurants import Restaurants
 from .orders import Orders
 from .couriers import Couriers
 from .deliveries import Deliveries
+from config import db
 
 __all__ = [
   'Addresses',
@@ -11,3 +12,5 @@ __all__ = [
   'Couriers',
   'Deliveries'
 ]
+
+db.create_all()
