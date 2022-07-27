@@ -53,5 +53,38 @@ def insert_couriers():
 def update_courier(id):
   return couriersController.update(id)
 
+@app.route("/orders", methods=["GET"])
+def get_orders():
+  return ordersController.get_all()
+
+@app.route("/orders/<int:id>", methods=["GET"])
+def get_order_by_id(id):
+  return ordersController.get_by_id(id)
+
+@app.route("/orders", methods=["POST"])
+def insert_orders():
+  return ordersController.insert()
+
+@app.route("/orders/<int:id>", methods=["PUT"])
+def update_order(id):
+  return ordersController.update(id)
+
+@app.route("/deliveries", methods=["GET"])
+def get_deliveries():
+  return deliveriesController.get_all()
+
+@app.route("/deliveries/<int:id>", methods=["GET"])
+def get_delivery_by_id(id):
+  return deliveriesController.get_by_id(id)
+
+@app.route("/deliveries", methods=["POST"])
+def insert_deliveries():
+  return deliveriesController.insert()
+
+@app.route("/deliveries/<int:id>", methods=["PUT"])
+def update_deliveries(id):
+  return deliveriesController.update(id)
+
+
 if __name__ == '__main__':
   app.run(debug=True, host="0.0.0.0", port=8090)
