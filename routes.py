@@ -1,6 +1,6 @@
 from config import create_app
 from flask_cors import CORS
-from controllers import restaurantsController, addressesController, couriersController
+from controllers import restaurantsController, addressesController, couriersController, ordersController, deliveriesController
 
 app = create_app()
 cors = CORS(app)
