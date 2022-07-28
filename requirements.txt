@@ -1,4 +1,5 @@
 flask,
 flask_sqlalchemy,
 flask_cors,
-psycopg2
+psycopg2,
+os
