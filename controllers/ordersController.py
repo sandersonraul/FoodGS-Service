@@ -1,19 +1,19 @@
-from models import Orders
+from models import ordersModel
 
 def get_all():
-  return Orders.get_all()
+  return ordersModel.get_all()
 
 def get_by_id(id):
-  return Orders.get_by_id(id)
+  return ordersModel.get_by_id(id)
 
 def get_order_restaurant(restaurant_id, order_id):
-  return Orders.get_order_restaurant(restaurant_id, order_id)
+  return ordersModel.get_order_restaurant(restaurant_id, order_id)
 
 def insert():
-  return Orders.insert()
+  return ordersModel.insert()
  
 def update(id):
-  return Orders.update(id)
+  return ordersModel.update(id)
 
 def delete(id):
-  return Orders.soft_delete(id)
+  return ordersModel.soft_delete(id)

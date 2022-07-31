@@ -1,16 +1,16 @@
-from models import Deliveries
+from models import deliveriesModel
 
 def get_all():
-  return Deliveries.get_all()
+  return deliveriesModel.get_all()
 
 def get_by_id(id):
-  return Deliveries.get_by_id(id)
+  return deliveriesModel.get_by_id(id)
 
 def insert():
-  return Deliveries.insert()
+  return deliveriesModel.insert()
 
 def update(id):
-  return Deliveries.update(id)
+  return deliveriesModel.update(id)
  
 
   

@@ -1,16 +1,16 @@
-from models import Couriers
+from models import couriersModel
 
 def get_all():
-  return Couriers.get_all()
+  return couriersModel.get_all()
 
 def get_by_id(id): 
-  return Couriers.get_by_id(id)
+  return couriersModel.get_by_id(id)
 
 def insert():
-  return Couriers.insert()
+  return couriersModel.insert()
 
 def update():
-  return Couriers.update()
+  return couriersModel.update()
 
 def delete(id):
-  return Couriers.soft_delete(id)
+  return couriersModel.soft_delete(id)

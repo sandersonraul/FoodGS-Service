@@ -1,16 +1,16 @@
-from models import Addresses
+from models import addressesModel
 
 def get_all():
-  return Addresses.get_all()
+  return addressesModel.get_all()
 
 def get_by_id(id):
-  return Addresses.get_by_id(id)
+  return addressesModel.get_by_id(id)
 
 def insert():
-  return Addresses.insert()
+  return addressesModel.insert()
 
 def update(id):
-  return Addresses.update(id)
+  return addressesModel.update(id)
 
 def delete(id):
-  return Addresses.soft_delete(id)
+  return addressesModel.soft_delete(id)
