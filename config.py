@@ -1,14 +1,12 @@
+import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-import os
+from dotenv import load_dotenv
 
-db = SQLAlchemy()
+load_dotenv()
 
-def create_app():
-    app = Flask(__name__)
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
-    db.init_app(app)
-    return app
-
-db = SQLAlchemy(create_app())
+app = Flask(__name__)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+app.config['SECRET_KEY'] = os.getenv('SECRET')
+db = SQLAlchemy(app)

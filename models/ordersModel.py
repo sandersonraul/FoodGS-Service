@@ -9,13 +9,13 @@ def get_all():
 def get_by_id(id):
   order = Orders.query.get(id)
   if order is None:
-    return "Not found", 404
+    return {"error": "Not found"}, 404
   return jsonify(order.to_json())
 
 def get_order_restaurant(restaurant_id, order_id):
   order = Orders.query.filter_by(id = order_id, restaurant_id = restaurant_id).first()
   if order is None:
-    return "Not found", 404
+    return {"error": "Not found"}, 404
   return jsonify(order.to_json())
 
 def insert():
@@ -37,7 +37,7 @@ def update(id):
     body = request.get_json()
     order = Orders.query.get(id)
     if order is None:
-      return "Not found", 404
+      return {"error": "Not found"}, 404
     if("descr" in body):
       order.descr = body["descr"]
     if("value" in body):
@@ -54,7 +54,7 @@ def update(id):
 def soft_delete(id):
   order = Orders.query.get(id)
   if order is None:
-      return "Not found", 404
+      return {"error": "Not found"}, 404
   order.active = False
   db.session.add(order)
   db.session.commit()

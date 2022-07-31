@@ -9,7 +9,7 @@ def get_all():
 def get_by_id(id):
   addr = Addresses.query.get(id)
   if addr is None:
-    return "Not found", 404
+    return {"error": "Not found"}, 404
   return jsonify(addr.to_json())
 
 def insert():
@@ -32,7 +32,7 @@ def update(id):
     body = request.get_json()
     addr = Addresses.query.get(id)
     if addr is None:
-      return "Not found", 404
+      return {"error": "Not found"}, 404
     if("city" in body):
       addr.city = body["city"]
     if("state" in body):
@@ -51,7 +51,7 @@ def update(id):
 def soft_delete(id):
   addr = Addresses.query.get(id)
   if addr is None:
-      return "Not found", 404
+      return {"error": "Not found"}, 404
   addr.active = False
   db.session.add(addr)
   db.session.commit()

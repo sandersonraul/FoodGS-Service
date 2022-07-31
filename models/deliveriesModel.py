@@ -9,7 +9,7 @@ def get_all():
 def get_by_id(id):
   deliv = Deliveries.query.get(id)
   if deliv is None:
-    return "Not found", 404
+    return {"error": "Not found"}, 404
   return jsonify(deliv.to_json())
 
 def insert():
@@ -30,7 +30,7 @@ def update(id):
     body = request.get_json()
     deliv = Deliveries.query.get(id)
     if deliv is None:
-      return "Not found", 404
+      return {"error": "Not found"}, 404
     if("order_id" in body):
       deliv.order_id = body["order_id"]
     if("courier_id" in body):

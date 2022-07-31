@@ -2,9 +2,11 @@ from config import db
 
 class Restaurants(db.Model):
   id = db.Column(db.Integer, primary_key=True)
+  public_id = db.Column(db.String(50), unique=True)
   name = db.Column(db.String(50))
   cnpj = db.Column(db.String(50))
   email = db.Column(db.String(50), unique=True)
+  password = db.Column(db.String(150))
   active = db.Column(db.Boolean, default=True)
   address_id = db.Column(db.Integer, db.ForeignKey('addresses.id'))
   created_at  = db.Column(db.DateTime, server_default=db.func.now())
@@ -13,7 +15,8 @@ class Restaurants(db.Model):
 
   def to_json(self):
     return {
-      "id": self.id,  
+      "id": self.id, 
+      "public_id": self.public_id,
       "name": self.name,
       "cnpj": self.cnpj,
       "email": self.email,

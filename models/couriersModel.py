@@ -9,7 +9,7 @@ def get_all():
 def get_by_id(id):
   couriers = Couriers.query.get(id)
   if couriers is None:
-    return "Not found", 404
+    return {"error": "Not found"}, 404
   return jsonify(couriers.to_json())
 
 def insert():
@@ -31,7 +31,7 @@ def update(id):
     body = request.get_json()
     courier = Couriers.query.get(id)
     if courier is None:
-      return "Not found", 404
+      return {"error": "Not found"}, 404
     if("name" in body):
       courier.name = body["name"]
     if("email" in body):
@@ -46,7 +46,7 @@ def update(id):
 def soft_delete(id):
   courier = Couriers.query.get(id)
   if courier is None:
-      return "Not found", 404
+      return {"error": "Not found"}, 404
   courier.active = False
   db.session.add(courier)
   db.session.commit()

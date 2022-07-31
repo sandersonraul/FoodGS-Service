@@ -6,8 +6,8 @@ def get_all():
 def get_by_id(id):
   return restaurantsModel.get_by_id(id)
 
-def get_orders(id):
-  return restaurantsModel.get_orders(id)
+def get_orders(current_rest, id):
+  return restaurantsModel.get_orders(current_rest, id)
 
 def insert():
   return restaurantsModel.insert()
