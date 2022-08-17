@@ -1,12 +1,15 @@
+import jwt
 import uuid
+import datetime
 from config import db
+from config import app
 from .entities import Restaurants
 from flask import jsonify, request
 from werkzeug.security import generate_password_hash
 
 def get_all():
   rest = Restaurants.query.all()
-  return jsonify({"Restaurants": [restaurants.to_json() for restaurants in rest]}), 200
+  return jsonify([restaurants.to_json() for restaurants in rest]), 200
 
 def get_by_id(id):
   rest = Restaurants.query.get(id)
@@ -27,18 +30,20 @@ def get_orders(current_rest, id):
 def insert():
   if request.is_json:
     body = request.get_json()
-    hash_password = generate_password_hash(body["password"], method='sha256')
     res = Restaurants (
       public_id = str(uuid.uuid4()),
       name = body["name"],
       cnpj = body["cnpj"], 
       email = body["email"],
-      password = hash_password,
-      address_id = body["address_id"]
     )
     db.session.add(res)
     db.session.commit()
-    return jsonify(res.to_json()) , 201
+    payload = {
+    "public_id": res.public_id,
+    "exp" : datetime.datetime.utcnow()
+    }
+    token = jwt.encode(payload, app.config["SECRET_KEY"])
+    return jsonify(res.to_json(),{"access-token": token}) , 201
   return {"error": "Request must be JSON"}, 415
 
 def update(id):
@@ -49,14 +54,12 @@ def update(id):
       return {"error": "Not found"}, 404
     if("name" in body):
       rest.name = body["name"]
-    if("cpnj" in body):
+    if("cnpj" in body):
       rest.cnpj = body["cnpj"]
     if("email" in body):
       rest.email = body["email"]
     if("active" in body):
       rest.active = body["active"]
-    if("address_id" in body):
-      rest.address_id = body["address_id"]
     db.session.add(rest)
     db.session.commit()
     return {"message": "updated successfully"}, 200

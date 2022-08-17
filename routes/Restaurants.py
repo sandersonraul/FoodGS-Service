@@ -1,10 +1,11 @@
 from flask import Blueprint
-from controllers import restaurantsController, ordersController
-from auth import restaurants_login, token_required
+from controllers import restaurantsController
+from auth import token_required
 
 app=Blueprint('restaurants', __name__)
 
 @app.route('/restaurants', methods=["GET"])
+@token_required
 def get_restaurants():
   return restaurantsController.get_all()
 
@@ -16,11 +17,6 @@ def get_restaurant_by_id(id):
 @token_required
 def get_restaurant_orders(current_rest, id):
   return restaurantsController.get_orders(current_rest, id)
-
-@app.route("/restaurants/<int:restaurant_id>/<int:order_id>", methods=["GET"])
-@token_required
-def get_order_restaurant(restaurant_id, order_id):
-  return ordersController.get_order_restaurant(restaurant_id, order_id)
 
 @app.route("/restaurants", methods=["POST"])
 def insert_restaurants():
