@@ -1,8 +1,8 @@
 from flask import Blueprint
-from auth import login
+from authentication import auth
 
 app=Blueprint('login', __name__)
 
-@app.route("/login/restaurants" , methods=["GET"])
+@app.route("/login" , methods=["GET"])
 def login():
-  return login()
+  return auth.login()

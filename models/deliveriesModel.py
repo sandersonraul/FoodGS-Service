@@ -1,5 +1,6 @@
-from config import db
-from .entities import Deliveries
+import jwt
+from config import db, app
+from .entities import Deliveries, Couriers
 from flask import jsonify, request
 
 def get_all():
@@ -43,8 +44,16 @@ def update(id):
   return {"error": "Request must be JSON"}, 415
 
 
-def accept_delivery():
+def accept_delivery(id):
   token = request.headers['x-access-token']
   try:
-    data = jwt.decode(token, app.config['SECRET_KEY'])
-    courier = Couriers.filter_by(email=data['email']).first()
+    data = jwt.decode(token, app.config["SECRET_KEY"], options={"verify_signature": False})
+    courier = Couriers.filter_by(email=data['email']).first() 
+    deliv = Deliveries.query.get(id)
+    deliv.courier_id = courier.id
+    deliv.status = 1
+    db.session.add(deliv)
+    db.session.commit()
+  except:
+    return {"Error": "not found"}, 404
+  return {"OK"}, 200
