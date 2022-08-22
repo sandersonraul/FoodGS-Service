@@ -41,3 +41,10 @@ def update(id):
     db.session.commit()
     return "updated successfully", 200
   return {"error": "Request must be JSON"}, 415
+
+
+def accept_delivery():
+  token = request.headers['x-access-token']
+  try:
+    data = jwt.decode(token, app.config['SECRET_KEY'])
+    courier = Couriers.filter_by(email=data['email']).first()

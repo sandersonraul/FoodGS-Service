@@ -14,7 +14,7 @@ def token_required(f):
       if not token:
           return jsonify({'message' : 'Token is missing!'}), 401
       try: 
-          data = jwt.decode(token, app.config['SECRET_KEY'], options={'verify_signature': False}, algorithms=["HS256"])
+          data = jwt.decode(token, app.config['SECRET_KEY'], options={'verify_signature': False})
       except:
           return jsonify({'message' : 'Token is invalid!'}), 401
       return f( *args, **kwargs)
@@ -24,13 +24,13 @@ def login():
   auth = request.authorization
   if not auth or not auth.username or not auth.password:
     return make_response('Could not verify', 401, {'Error': 'Login required'})
-  rest  = entities.Restaurants.query.filter_by(email=auth.username).first_or_404()
+  courier  = entities.Couriers.query.filter_by(email=auth.username).first_or_404()
   
-  if check_password_hash(rest.password, auth.password):
+  if check_password_hash(courier.password, auth.password):
     payload = {
-    'public_id': rest.public_id,
-    'exp' : datetime.datetime.utcnow() + datetime.timedelta(days=30) 
+    'public_id': courier.email,
+    'exp' : datetime.datetime.utcnow() 
     }
     token = jwt.encode(payload, app.config['SECRET_KEY'])
-    return jsonify({'access_token': token}) 
+    return jsonify({'access_token': token, courier}) 
   return {'Error': 'password incorret'} 
