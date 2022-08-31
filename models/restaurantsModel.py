@@ -17,7 +17,7 @@ def get_by_id(id):
     return {"error": "Not found"}, 404
   return jsonify(rest.to_json())
 
-def get_orders(current_rest, id):
+def get_orders(id):
   rest = Restaurants.query.get(id)
   if rest is None:
     return {"error": "Not found"}, 404

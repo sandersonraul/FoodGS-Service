@@ -10,6 +10,7 @@ def get_restaurants():
   return restaurantsController.get_all()
 
 @app.route("/restaurants/<int:id>", methods=["GET"])
+@auth.token_required
 def get_restaurant_by_id(id):
   return restaurantsController.get_by_id(id)
 

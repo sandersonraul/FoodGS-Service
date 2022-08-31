@@ -9,6 +9,7 @@ class Restaurants(db.Model):
   active = db.Column(db.Boolean, default=True)
   created_at  = db.Column(db.DateTime, server_default=db.func.now())
   updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
+  deliveries = db.relationship('Deliveries', backref='restaurants')
 
   def to_json(self):
     return {

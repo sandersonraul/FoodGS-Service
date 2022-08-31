@@ -1,7 +1,6 @@
 from config import db
 from .entities import Couriers
 from flask import jsonify, request
-from werkzeug.security import generate_password_hash
   
 def get_all():
   couriers = Couriers.query.all()
@@ -16,11 +15,10 @@ def get_by_id(id):
 def insert():
   if request.is_json:
     body = request.get_json()
-    hash_password = generate_password_hash(body["password"], method='sha256')
     couriers = Couriers (
       name = body["name"],
       email = body["email"],
-      password = hash_password,
+      password = body["password"],
       cpf = body["cpf"],
     )
     db.session.add(couriers)
@@ -53,4 +51,3 @@ def soft_delete(id):
   db.session.add(courier)
   db.session.commit()
   return "deleted successfully", 200
-
